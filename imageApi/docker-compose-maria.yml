@@ -1,0 +1,17 @@
+services:
+  db:
+    container_name: mariadb_imagelite
+    image: mariadb:12-ubi
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 123
+      MARIADB_DATABASE: app-db
+
+    ports:
+      - '3307:3306'
+    volumes:
+      - mariadb_data:/var/lib/mysql
+volumes:
+  mariadb_data:
+
+
