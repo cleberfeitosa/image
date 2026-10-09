@@ -3,8 +3,6 @@ package io.spring.image.demo.application;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
 @Builder
 public class ImageDTO {
@@ -12,5 +10,5 @@ public class ImageDTO {
     private String name;
     private String extension;
     private Long size;
-    private LocalDate uploadDate;
+    private String uploadDate;
 }
