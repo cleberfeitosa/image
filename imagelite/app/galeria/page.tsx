@@ -1,44 +1,47 @@
-'use client'
+"use client";
 
 //import { Template } from '../components/Template';
 //import { ImageCard } from '../components/Image';
-import { Image } from '@/resource/image';
-import { Template, ImageCard  } from '@/components';
-import {  useImageService } from '@/resource/service';
-import { useState } from 'react';
-
+import { Image } from "@/resource/image";
+import { Template, ImageCard } from "@/components";
+import { useImageService } from "@/resource/service";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components";
 
 export default function Galeria() {
-  
+  const router = useRouter();
   const useService = useImageService();
   const [images, setImages] = useState<Image[]>([]);
-  const [query, setQuery] = useState('');
-  const [extension, setExtension] = useState('');
+  const [query, setQuery] = useState("");
+  const [extension, setExtension] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  async function searchImages(searchQuery = query, searchExtension = extension) {
+  async function searchImages(
+    searchQuery = query,
+    searchExtension = extension,
+  ) {
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const result = await useService.buscar(searchQuery, searchExtension);
       setImages(result);
       setHasSearched(true);
     } catch (cause) {
-      console.error('Erro ao buscar imagens:', cause);
+      console.error("Erro ao buscar imagens:", cause);
       setError(
         cause instanceof TypeError
-          ? 'Não foi possível conectar à API. Verifique se o backend está em execução.'
+          ? "Não foi possível conectar à API. Verifique se o backend está em execução."
           : cause instanceof Error
             ? cause.message
-            : 'Ocorreu um erro inesperado ao buscar imagens.',
+            : "Ocorreu um erro inesperado ao buscar imagens.",
       );
     } finally {
       setIsLoading(false);
     }
-
   }
 
   /*renderizando a imagem na tela*/
@@ -49,7 +52,7 @@ export default function Galeria() {
         imageName={image.name}
         imageUrl={image.url}
         extension={image.extension}
-        imageSize={image.size != null ? `${image.size} bytes` : ''}
+        imageSize={image.size != null ? `${image.size} bytes` : ""}
         uploadDate={image.uploadDate}
       />
     );
@@ -69,25 +72,23 @@ export default function Galeria() {
         }}
       >
         <div className="flex flex-col gap-1">
-          
           <input
             id="image-query"
             className="h-10 rounded border border-gray-400 px-3 py-2"
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-           placeholder="Buscar por nome ou tag"
-           />
+            placeholder="Buscar por nome ou tag"
+          />
         </div>
-        <div className="flex flex-col gap-1">
-          
+        <div className="flex flex-col items-justify gap-1">
           <select
             id="image-extension"
-            className="h-10 rounded border border-gray-400 px-3 py-2"
+            className="h-10 rounded border font-bold hover:bg-gray-100 border-gray-400 px-3 py-2"
             value={extension}
             onChange={(event) => setExtension(event.target.value)}
           >
-            <option value="">Todas</option>
+            <option value="">All Formats</option>
             <option value="PNG">PNG</option>
             <option value="JPG">JPG</option>
             <option value="JPEG">JPEG</option>
@@ -99,27 +100,27 @@ export default function Galeria() {
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? 'Buscando...' : 'Buscar'}
+          {isLoading ? "Buscando..." : "Search"}
         </button>
         <button
           className="h-10 rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700 disabled:opacity-50"
           type="button"
           disabled={isLoading}
           onClick={() => {
-            setQuery('');
-            setExtension('');
-            void searchImages('', '');
+            setQuery("");
+            setExtension("");
+            void searchImages("", "");
           }}
         >
-          Limpar filtros
+          Clear Filters
         </button>
-        <button
-          className="h-10 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 disabled:opacity-50"
+        <Button
           type="button"
-          
+          variant="danger"
+          onClick={() => router.push("/upload")}
         >
-          Adicionar Imagem
-        </button>
+          Add New
+        </Button>
       </form>
 
       <section className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 lg:grid-cols-3">
