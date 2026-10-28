@@ -1,4 +1,4 @@
-package io.spring.image.demo.application;
+package io.spring.image.demo.application.images;
 
 import io.spring.image.demo.domain.entity.Image;
 import io.spring.image.demo.domain.enums.ImageExtension;

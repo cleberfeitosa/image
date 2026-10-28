@@ -1,4 +1,4 @@
-package io.spring.image.demo.application;
+package io.spring.image.demo.application.images;
 
 import lombok.Builder;
 import lombok.Data;

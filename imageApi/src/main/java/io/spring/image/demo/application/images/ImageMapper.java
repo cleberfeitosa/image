@@ -1,9 +1,8 @@
-package io.spring.image.demo.application;
+package io.spring.image.demo.application.images;
 
 import io.spring.image.demo.domain.entity.Image;
 import io.spring.image.demo.domain.enums.ImageExtension;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
